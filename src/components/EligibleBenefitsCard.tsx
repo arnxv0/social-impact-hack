@@ -120,10 +120,24 @@ const EligibleBenefitsCard: React.FC<EligibleBenefitsCardProps> = ({
                   border: "2px solid",
                   borderColor: getCategoryColor(benefit.category),
                   borderRadius: 2,
-                  transition: "all 0.3s",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                  position: "relative",
+                  overflow: "hidden",
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: "4px",
+                    bgcolor: getCategoryColor(benefit.category),
+                  },
                   "&:hover": {
-                    boxShadow: 6,
-                    transform: "translateY(-4px)",
+                    boxShadow: `0 12px 24px ${getCategoryColor(
+                      benefit.category
+                    )}40`,
+                    transform: "translateY(-8px) scale(1.02)",
+                    borderColor: getCategoryColor(benefit.category),
                   },
                 }}
               >

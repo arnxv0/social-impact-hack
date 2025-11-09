@@ -1,13 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>social-impact-hack</title>
+    <title>Pixie Helpline - Help Starts Here</title>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Custom ConvAI Widget Theme -->
+    <link rel="stylesheet" href="/src/convai-theme.css" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- ElevenLabs ConvAI Widget -->
+    <elevenlabs-convai
+      agent-id="agent_0301k9n3ce8fejct72n9yzkx325q"
+    ></elevenlabs-convai>
+    <script
+      src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+      async
+      type="text/javascript"
+    ></script>
+
+    <!-- Custom Widget Color Override Script -->
+    <script>
+      // Wait for the widget to load and inject custom color styles
+      function styleConvAIWidget() {
+        const widget = document.querySelector("elevenlabs-convai");
+        if (!widget || !widget.shadowRoot) {
+          setTimeout(styleConvAIWidget, 100);
+          return;
+        }
+
+        // Inject only color overrides into shadow DOM
+        const style = document.createElement("style");
+        style.textContent = `
+          button, .button, [class*="button"], [class*="call"] {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+            color: white !important;
+            border-color: transparent !important;
+          }
+          
+          button:hover, .button:hover, [class*="button"]:hover {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+            border-color: transparent !important;
+          }
+        `;
+
+        if (widget.shadowRoot) {
+          widget.shadowRoot.appendChild(style);
+        }
+      }
+
+      // Start trying to style the widget after DOM is loaded
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", styleConvAIWidget);
+      } else {
+        styleConvAIWidget();
+      }
+
+      // Also try again after a delay to catch late-loading widgets
+      setTimeout(styleConvAIWidget, 1000);
+      setTimeout(styleConvAIWidget, 2000);
+      setTimeout(styleConvAIWidget, 3000);
+    </script>
   </body>
 </html>

@@ -1,0 +1,87 @@
+/* Custom color styling for ElevenLabs ConvAI Widget - Colors Only */
+
+/* Override widget button colors */
+elevenlabs-convai {
+  --primary-color: #6366f1 !important;
+  --secondary-color: #8b5cf6 !important;
+  --accent-color: #ec4899 !important;
+}
+
+/* Target any button elements - colors only */
+button[class*="elevenlabs"],
+button[class*="convai"],
+button[class*="call"],
+button[class*="start"],
+div[class*="elevenlabs"] button,
+div[class*="convai"] button {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+  color: white !important;
+  border-color: transparent !important;
+}
+
+button[class*="elevenlabs"]:hover,
+button[class*="convai"]:hover,
+button[class*="call"]:hover,
+button[class*="start"]:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+  border-color: transparent !important;
+}
+
+/* Try to target the widget's internal structure - colors only */
+[data-convai-widget] button,
+[data-elevenlabs] button {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+  color: white !important;
+  border-color: transparent !important;
+}
+
+/* Style the main widget button */
+elevenlabs-convai::part(button) {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%) !important;
+}
+
+/* Style the call button inside the widget - colors only */
+elevenlabs-convai::part(call-button),
+elevenlabs-convai::part(start-button),
+elevenlabs-convai::part(action-button) {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+  color: white !important;
+  border-color: transparent !important;
+}
+
+elevenlabs-convai::part(call-button):hover,
+elevenlabs-convai::part(start-button):hover,
+elevenlabs-convai::part(action-button):hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+  border-color: transparent !important;
+}
+
+/* Style the widget header - colors only */
+elevenlabs-convai::part(header) {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%) !important;
+  color: white !important;
+}
+
+/* Alternative approach using global CSS selectors - colors only */
+.elevenlabs-convai-widget button,
+.elevenlabs-convai-widget [role="button"] {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+  color: white !important;
+  border-color: transparent !important;
+}
+
+.elevenlabs-convai-widget .call-button,
+.elevenlabs-convai-widget [class*="call"],
+.elevenlabs-convai-widget [class*="button"],
+.elevenlabs-convai-widget [class*="start"] {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+  color: white !important;
+  border-color: transparent !important;
+}
+
+.elevenlabs-convai-widget button:hover,
+.elevenlabs-convai-widget [class*="button"]:hover,
+.elevenlabs-convai-widget [role="button"]:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+  border-color: transparent !important;
+}

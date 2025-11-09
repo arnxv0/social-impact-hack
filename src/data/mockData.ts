@@ -78,6 +78,46 @@ export const mockUserProfile: UserProfile = {
 
 export const mockCallTranscripts: CallTranscript[] = [
   {
+    transcript_id: "5",
+    call_date: "2025-11-09T14:15:00",
+    duration_seconds: 141,
+    sentiment_score: 0.85,
+    call_subject: "Emergency Housing Request - Category 4",
+    transcript_text: `Agent: Hey! Welcome to the homeless helpline! What can I help you with today?
+
+Rishi: Hi. Um, what services do you offer?
+
+Agent: We offer a range of services to help people experiencing homelessness, including assistance with housing, healthcare, and educational resources. To get started, could you please tell me your name and date of birth?
+
+Rishi: Yeah. Um, my name is Rishi. I was born on the 4th of March, 1999.
+
+Agent: Thank you, Rishi. Please give me a moment while I look you up in our system. Welcome back, Rishi! I was able to find you in our system. Is there anything in particular you want help with today?
+
+Rishi: Yeah. Uh can you give me... I'm in an abusive house and I need help with housing. Can you help me please?
+
+Agent: I can definitely help you with housing support, Rishi. I'm so sorry to hear that you're in an abusive situation. Do you feel unsafe where you've been staying, or are you leaving because of violence or threats, including dating violence, sexual assault, stalking, or trafficking?
+
+Rishi: Yeah, I am.
+
+Agent: I understand, and I'm truly sorry you're going through this. Do you have another safe place to stay right now?
+
+Rishi: I don't have anywhere else to go. I'm so scared.
+
+Agent: I hear you, and it's completely understandable to feel scared right now. Do you have the money or support to get other safe housing at this moment?
+
+Rishi: I don't have any money either.
+
+Agent: Thank you for sharing that with me, Rishi. Based on what you've told me, you qualify for Category four housing, which is for individuals fleeing or attempting to flee domestic violence. I'm going to help you fill out a form to get you housing in San Francisco. To do this, I need a little more information. Do you have a preference for a male or female bed?
+
+Rishi: Male bed?
+
+Agent: Okay, male bed. And do you have a preference for any of the shelters I'm about to list? We have MSC South, which is without a lift, Next Door, which has a lift, and Sanctuary, which also has a lift.
+
+Rishi: Let's do Sanctuary.
+
+Agent: Great choice, Rishi. Please hold on for a moment while I complete the booking for you. The booking is done, and you should receive a text message with the information and next steps shortly. If you have any more questions or need further assistance, feel free to reach out. Stay safe, Rishi.`,
+  },
+  {
     transcript_id: "4",
     call_date: "2025-11-09T11:30:00",
     duration_seconds: 480,
@@ -294,6 +334,43 @@ export const mockIntakeResponses: IntakeResponse[] = [
 ];
 
 export const mockServiceContacts: ServiceContact[] = [
+  {
+    contact_id: "7",
+    service_name: "Sanctuary Shelter - Emergency Category 4 Housing",
+    contact_type: "call_made",
+    status: "completed",
+    contact_date: "2025-11-09T14:15:00",
+    notes:
+      "Emergency housing booking completed for Rishi Athreya fleeing domestic violence. Qualified for Category 4 housing (fleeing domestic violence/abuse). Selected Sanctuary shelter with lift access, male bed preference.",
+    next_steps:
+      "Rishi will receive text message with booking confirmation and check-in instructions. Can arrive at shelter any time after 6 PM today.",
+    stages: [
+      {
+        stage_name: "Emergency Assessment",
+        status: "completed",
+        date: "2025-11-09T14:15:00",
+        description:
+          "Safety assessment completed, Category 4 housing qualified",
+      },
+      {
+        stage_name: "Shelter Selection",
+        status: "completed",
+        date: "2025-11-09T14:18:00",
+        description: "Sanctuary shelter selected - male bed with lift access",
+      },
+      {
+        stage_name: "Booking Confirmation",
+        status: "completed",
+        date: "2025-11-09T14:20:00",
+        description: "Booking processed, confirmation sent via text message",
+      },
+      {
+        stage_name: "Check-in",
+        status: "upcoming",
+        description: "Check in at Sanctuary shelter after 6 PM today",
+      },
+    ],
+  },
   {
     contact_id: "6",
     service_name: "Local Hospital Clinic - Medical Registration",

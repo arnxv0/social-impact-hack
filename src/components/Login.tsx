@@ -10,6 +10,7 @@ import {
   Typography,
   Container,
 } from "@mui/material";
+import { SupportAgent as SupportAgentIcon } from "@mui/icons-material";
 import { mockUserProfile } from "../data/mockData";
 
 const Login: React.FC = () => {
@@ -32,11 +33,6 @@ const Login: React.FC = () => {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const validatePhone = (phone: string): boolean => {
-    const phoneRegex = /^\d{3}-\d{3}-\d{4}$/;
-    return phoneRegex.test(phone);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -52,8 +48,6 @@ const Login: React.FC = () => {
     }
     if (!formData.phone.trim()) {
       newErrors.phone = "Please enter your phone number";
-    } else if (!validatePhone(formData.phone)) {
-      newErrors.phone = "Please use format: XXX-XXX-XXXX";
     }
     if (!formData.dob) {
       newErrors.dob = "Please enter your date of birth";
@@ -79,8 +73,34 @@ const Login: React.FC = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        background: "linear-gradient(135deg, #1a5276 0%, #48c9b0 100%)",
         padding: 2,
+        position: "relative",
+        overflow: "hidden",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundImage:
+            'url("https://sfile.chatglm.cn/images-ppt/9ab40a8bc60a.jpg")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.7,
+          animation: "pulse 8s infinite alternate",
+        },
+        "@keyframes pulse": {
+          "0%": {
+            transform: "scale(1)",
+            opacity: 0.7,
+          },
+          "100%": {
+            transform: "scale(1.05)",
+            opacity: 0.9,
+          },
+        },
       }}
     >
       <Container maxWidth="sm">
@@ -93,26 +113,69 @@ const Login: React.FC = () => {
             sx={{
               borderRadius: 3,
               boxShadow: "0 10px 40px rgba(0,0,0,0.2)",
+              position: "relative",
+              zIndex: 1,
             }}
           >
             <CardContent sx={{ p: 4 }}>
               <Box sx={{ mb: 4, textAlign: "center" }}>
+                <motion.div
+                  animate={{
+                    y: [0, -15, 0],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <SupportAgentIcon
+                    sx={{
+                      fontSize: 80,
+                      color: "#48c9b0",
+                      mb: 2,
+                    }}
+                  />
+                </motion.div>
                 <Typography
-                  variant="h4"
+                  variant="h3"
                   gutterBottom
-                  sx={{ fontWeight: 600, color: "primary.main" }}
+                  sx={{
+                    fontWeight: 700,
+                    color: "#1a5276",
+                    letterSpacing: "1px",
+                  }}
                 >
-                  Welcome to CHYP
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  California Homeless Youth Project
+                  Pixie Helpline
                 </Typography>
                 <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mt: 1 }}
+                  variant="h6"
+                  sx={{
+                    mb: 1,
+                    fontWeight: 600,
+                    color: "#48c9b0",
+                    position: "relative",
+                    display: "inline-block",
+                    "&::after": {
+                      content: '""',
+                      position: "absolute",
+                      bottom: "-5px",
+                      left: 0,
+                      width: "100%",
+                      height: "4px",
+                      background: "rgba(72, 201, 176, 0.7)",
+                      borderRadius: "2px",
+                    },
+                  }}
                 >
-                  Sign in to access your service dashboard
+                  Help Starts Here
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{ mt: 2 }}
+                >
+                  An AI homeless helpline of the future
                 </Typography>
               </Box>
 
@@ -139,7 +202,7 @@ const Login: React.FC = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   error={!!errors.phone}
-                  helperText={errors.phone || "Format: +1-408-591-0644"}
+                  helperText={errors.phone}
                   margin="normal"
                   variant="outlined"
                   placeholder="+1-408-591-0644"
@@ -171,9 +234,13 @@ const Login: React.FC = () => {
                     textTransform: "none",
                     fontSize: "1.1rem",
                     fontWeight: 600,
-                    boxShadow: "0 4px 12px rgba(33, 150, 243, 0.4)",
+                    background:
+                      "linear-gradient(135deg, #1a5276 0%, #48c9b0 100%)",
+                    boxShadow: "0 4px 12px rgba(26, 82, 118, 0.4)",
                     "&:hover": {
-                      boxShadow: "0 6px 16px rgba(33, 150, 243, 0.5)",
+                      boxShadow: "0 6px 16px rgba(26, 82, 118, 0.5)",
+                      background:
+                        "linear-gradient(135deg, #154360 0%, #3fb89e 100%)",
                     },
                   }}
                 >
@@ -183,7 +250,7 @@ const Login: React.FC = () => {
 
               <Box sx={{ mt: 3, textAlign: "center" }}>
                 <Typography variant="caption" color="text.secondary">
-                  For demo: Use any name, phone (XXX-XXX-XXXX format), and date
+                  For demo: Use any name, phone number, and date
                 </Typography>
               </Box>
             </CardContent>

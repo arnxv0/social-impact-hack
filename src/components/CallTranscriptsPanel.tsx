@@ -82,9 +82,12 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
                       border: "1px solid",
                       borderColor: "divider",
                       borderRadius: 2,
+                      transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
                       "&:hover": {
                         borderColor: "primary.main",
-                        bgcolor: "rgba(33, 150, 243, 0.04)",
+                        bgcolor: "rgba(99, 102, 241, 0.05)",
+                        transform: "translateY(-2px)",
+                        boxShadow: "0 4px 12px rgba(99, 102, 241, 0.15)",
                       },
                     }}
                   >
@@ -169,11 +172,13 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
             {/* Header */}
             <Box
               sx={{
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                background:
+                  "linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%)",
                 color: "white",
                 p: { xs: 2, sm: 3 },
                 position: "relative",
                 overflow: "visible",
+                boxShadow: "0 4px 12px rgba(99, 102, 241, 0.3)",
               }}
             >
               <Box
@@ -314,10 +319,30 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
             >
               {selectedTranscript && (
                 <Box sx={{ p: 3 }}>
-                  {selectedTranscript.transcript_text
-                    .split("\n\n")
-                    .map((paragraph, index) => {
-                      // Check if this line contains a speaker
+                  {(() => {
+                    const paragraphs =
+                      selectedTranscript.transcript_text.split("\n\n");
+                    const speakers = new Set<string>();
+
+                    // First pass: collect all unique speakers
+                    paragraphs.forEach((paragraph) => {
+                      const colonIndex = paragraph.indexOf(":");
+                      if (colonIndex !== -1) {
+                        const speaker = paragraph
+                          .substring(0, colonIndex)
+                          .trim();
+                        speakers.add(speaker);
+                      }
+                    });
+
+                    // Determine primary speaker (usually "Agent" or "Voice Agent")
+                    const speakersArray = Array.from(speakers);
+                    const primarySpeaker =
+                      speakersArray.find((s) =>
+                        s.toLowerCase().includes("agent")
+                      ) || speakersArray[0];
+
+                    return paragraphs.map((paragraph, index) => {
                       const colonIndex = paragraph.indexOf(":");
                       if (colonIndex === -1) return null;
 
@@ -326,11 +351,8 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
                         .substring(colonIndex + 1)
                         .trim();
 
-                      // Determine if it's an agent/system speaker or client speaker
-                      const isAgent =
-                        speaker.toLowerCase().includes("agent") ||
-                        speaker.toLowerCase().includes("hospital") ||
-                        speaker.toLowerCase().includes("service");
+                      // Primary speaker (Agent/Voice Agent) on left, others on right
+                      const isAgent = speaker === primarySpeaker;
 
                       return (
                         <motion.div
@@ -355,13 +377,15 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
                                   width: 36,
                                   height: 36,
                                   borderRadius: "50%",
-                                  bgcolor: "primary.main",
+                                  bgcolor: "#8b5cf6",
                                   display: "flex",
                                   alignItems: "center",
                                   justifyContent: "center",
                                   color: "white",
                                   fontSize: "1.2rem",
                                   flexShrink: 0,
+                                  boxShadow:
+                                    "0 2px 8px rgba(139, 92, 246, 0.3)",
                                 }}
                               >
                                 🎧
@@ -370,13 +394,16 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
                             <Box
                               sx={{
                                 maxWidth: "70%",
-                                bgcolor: isAgent ? "white" : "primary.main",
+                                bgcolor: isAgent ? "white" : "#6366f1",
                                 color: isAgent ? "text.primary" : "white",
                                 borderRadius: isAgent
                                   ? "16px 16px 16px 4px"
                                   : "16px 16px 4px 16px",
                                 p: 2,
-                                boxShadow: 1,
+                                boxShadow: isAgent
+                                  ? "0 2px 8px rgba(0,0,0,0.08)"
+                                  : "0 4px 12px rgba(99, 102, 241, 0.3)",
+                                border: isAgent ? "1px solid #e5e7eb" : "none",
                                 wordWrap: "break-word",
                                 overflowWrap: "break-word",
                               }}
@@ -386,8 +413,8 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
                                 sx={{
                                   fontWeight: 700,
                                   color: isAgent
-                                    ? "primary.main"
-                                    : "rgba(255,255,255,0.9)",
+                                    ? "#8b5cf6"
+                                    : "rgba(255,255,255,0.95)",
                                   display: "block",
                                   mb: 0.5,
                                   fontSize: "0.7rem",
@@ -430,7 +457,8 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
                           </Box>
                         </motion.div>
                       );
-                    })}
+                    });
+                  })()}
                 </Box>
               )}
             </CardContent>
