@@ -97,8 +97,8 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
                           mb: 1,
                         }}
                       >
-                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                          {formatDate(transcript.call_date)}
+                        <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                          {transcript.call_subject}
                         </Typography>
                         <Chip
                           label={getSentimentLabel(transcript.sentiment_score)}
@@ -111,9 +111,10 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
                       <Typography
                         variant="caption"
                         color="text.secondary"
-                        sx={{ display: "block", mb: 1 }}
+                        sx={{ display: "block", mb: 0.5 }}
                       >
-                        Duration: {formatDuration(transcript.duration_seconds)}
+                        {formatDate(transcript.call_date)} • Duration:{" "}
+                        {formatDuration(transcript.duration_seconds)}
                       </Typography>
                       <Typography
                         variant="body2"
@@ -203,7 +204,7 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
                         fontSize: { xs: "1.25rem", sm: "1.5rem" },
                       }}
                     >
-                      Call Transcript
+                      {selectedTranscript?.call_subject || "Call Transcript"}
                     </Typography>
                   </Box>
                   {selectedTranscript && (
@@ -307,6 +308,7 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
                 p: 0,
                 overflowY: "auto",
                 flexGrow: 1,
+                bgcolor: "grey.50",
                 "&:last-child": { pb: 0 },
               }}
             >
@@ -315,76 +317,119 @@ const CallTranscriptsPanel: React.FC<CallTranscriptsPanelProps> = ({
                   {selectedTranscript.transcript_text
                     .split("\n\n")
                     .map((paragraph, index) => {
-                      // Check if this is an Agent or Jordan speaking
-                      const isAgent = paragraph.startsWith("Agent:");
-                      const isJordan = paragraph.startsWith("Jordan:");
+                      // Check if this line contains a speaker
+                      const colonIndex = paragraph.indexOf(":");
+                      if (colonIndex === -1) return null;
 
-                      if (isAgent || isJordan) {
-                        const [, ...messageParts] = paragraph.split(":");
-                        const message = messageParts.join(":").trim();
+                      const speaker = paragraph.substring(0, colonIndex).trim();
+                      const message = paragraph
+                        .substring(colonIndex + 1)
+                        .trim();
 
-                        return (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0, x: isAgent ? -20 : 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.05 }}
+                      // Determine if it's an agent/system speaker or client speaker
+                      const isAgent =
+                        speaker.toLowerCase().includes("agent") ||
+                        speaker.toLowerCase().includes("hospital") ||
+                        speaker.toLowerCase().includes("service");
+
+                      return (
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.05 }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: isAgent
+                                ? "flex-start"
+                                : "flex-end",
+                              mb: 2,
+                              gap: 1,
+                            }}
                           >
-                            <Box
-                              sx={{
-                                display: "flex",
-                                justifyContent: isAgent
-                                  ? "flex-start"
-                                  : "flex-end",
-                                mb: 2,
-                              }}
-                            >
+                            {isAgent && (
                               <Box
                                 sx={{
-                                  maxWidth: "75%",
-                                  bgcolor: isAgent ? "primary.50" : "grey.100",
-                                  borderRadius: 2,
-                                  p: 2,
-                                  borderLeft: isAgent ? "4px solid" : "none",
-                                  borderRight: isAgent ? "none" : "4px solid",
-                                  borderColor: isAgent
-                                    ? "primary.main"
-                                    : "grey.400",
-                                  wordWrap: "break-word",
-                                  overflowWrap: "break-word",
+                                  width: 36,
+                                  height: 36,
+                                  borderRadius: "50%",
+                                  bgcolor: "primary.main",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  color: "white",
+                                  fontSize: "1.2rem",
+                                  flexShrink: 0,
                                 }}
                               >
-                                <Typography
-                                  variant="caption"
-                                  sx={{
-                                    fontWeight: 700,
-                                    color: isAgent
-                                      ? "primary.main"
-                                      : "text.secondary",
-                                    display: "block",
-                                    mb: 0.5,
-                                  }}
-                                >
-                                  {isAgent ? "🎧 Support Agent" : "👤 Jordan"}
-                                </Typography>
-                                <Typography
-                                  variant="body2"
-                                  sx={{
-                                    lineHeight: 1.6,
-                                    color: "text.primary",
-                                    whiteSpace: "pre-wrap",
-                                    wordBreak: "break-word",
-                                  }}
-                                >
-                                  {message}
-                                </Typography>
+                                🎧
                               </Box>
+                            )}
+                            <Box
+                              sx={{
+                                maxWidth: "70%",
+                                bgcolor: isAgent ? "white" : "primary.main",
+                                color: isAgent ? "text.primary" : "white",
+                                borderRadius: isAgent
+                                  ? "16px 16px 16px 4px"
+                                  : "16px 16px 4px 16px",
+                                p: 2,
+                                boxShadow: 1,
+                                wordWrap: "break-word",
+                                overflowWrap: "break-word",
+                              }}
+                            >
+                              <Typography
+                                variant="caption"
+                                sx={{
+                                  fontWeight: 700,
+                                  color: isAgent
+                                    ? "primary.main"
+                                    : "rgba(255,255,255,0.9)",
+                                  display: "block",
+                                  mb: 0.5,
+                                  fontSize: "0.7rem",
+                                  textTransform: "uppercase",
+                                  letterSpacing: 0.5,
+                                }}
+                              >
+                                {speaker}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                sx={{
+                                  lineHeight: 1.6,
+                                  color: isAgent ? "text.primary" : "white",
+                                  whiteSpace: "pre-wrap",
+                                  wordBreak: "break-word",
+                                  fontSize: "0.9rem",
+                                }}
+                              >
+                                {message}
+                              </Typography>
                             </Box>
-                          </motion.div>
-                        );
-                      }
-
-                      return null;
+                            {!isAgent && (
+                              <Box
+                                sx={{
+                                  width: 36,
+                                  height: 36,
+                                  borderRadius: "50%",
+                                  bgcolor: "grey.300",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  fontSize: "1.2rem",
+                                  flexShrink: 0,
+                                }}
+                              >
+                                👤
+                              </Box>
+                            )}
+                          </Box>
+                        </motion.div>
+                      );
                     })}
                 </Box>
               )}

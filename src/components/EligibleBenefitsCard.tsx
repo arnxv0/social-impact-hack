@@ -114,6 +114,7 @@ const EligibleBenefitsCard: React.FC<EligibleBenefitsCardProps> = ({
               <Card
                 sx={{
                   height: "100%",
+                  minHeight: "520px",
                   display: "flex",
                   flexDirection: "column",
                   border: "2px solid",
@@ -127,7 +128,12 @@ const EligibleBenefitsCard: React.FC<EligibleBenefitsCardProps> = ({
                 }}
               >
                 <CardContent
-                  sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
+                  sx={{
+                    flexGrow: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    p: 2.5,
+                  }}
                 >
                   {/* Category Icon & Badge */}
                   <Box
@@ -201,7 +207,9 @@ const EligibleBenefitsCard: React.FC<EligibleBenefitsCardProps> = ({
                       borderRadius: 1.5,
                       p: 2,
                       mb: 2,
-                      flexGrow: 1,
+                      minHeight: "120px",
+                      display: "flex",
+                      flexDirection: "column",
                     }}
                   >
                     <Typography
@@ -229,11 +237,66 @@ const EligibleBenefitsCard: React.FC<EligibleBenefitsCardProps> = ({
                     </Typography>
                   </Box>
 
+                  {/* Waitlist Information */}
+                  {benefit.waitlist_info && (
+                    <Box
+                      sx={{
+                        bgcolor: "info.50",
+                        borderRadius: 1.5,
+                        p: 2,
+                        mb: 2,
+                        borderLeft: "3px solid",
+                        borderColor: "info.main",
+                      }}
+                    >
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          fontWeight: 700,
+                          color: "info.dark",
+                          display: "block",
+                          mb: 1,
+                          textTransform: "uppercase",
+                          letterSpacing: 0.5,
+                        }}
+                      >
+                        Your Waitlist Information:
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 0.5,
+                        }}
+                      >
+                        <Typography
+                          variant="body2"
+                          sx={{ fontSize: "0.875rem" }}
+                        >
+                          <strong>Request ID:</strong>{" "}
+                          {benefit.waitlist_info.request_id}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ fontSize: "0.875rem" }}
+                        >
+                          <strong>Waitlist ID:</strong>{" "}
+                          {benefit.waitlist_info.waitlist_id}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  )}
+
+                  {/* Spacer to push buttons to bottom */}
+                  <Box sx={{ flexGrow: 1 }} />
+
                   {/* Status & Action */}
                   <Box
                     sx={{
                       display: "flex",
-                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      flexWrap: "wrap",
                       gap: 1.5,
                       mt: "auto",
                     }}
@@ -244,41 +307,50 @@ const EligibleBenefitsCard: React.FC<EligibleBenefitsCardProps> = ({
                       size="small"
                       sx={{
                         fontWeight: 600,
-                        alignSelf: "flex-start",
+                        fontSize: "0.75rem",
                       }}
                     />
-                    {benefit.application_status === "not_started" && (
+                    {benefit.waitlist_info ? (
                       <Button
                         variant="contained"
-                        fullWidth
+                        size="small"
+                        color="info"
+                        startIcon={<CheckCircleIcon />}
+                        onClick={() =>
+                          window.open(
+                            benefit.waitlist_info!.lookup_url,
+                            "_blank"
+                          )
+                        }
                         sx={{
-                          bgcolor: getCategoryColor(benefit.category),
                           textTransform: "none",
                           fontWeight: 600,
-                          py: 1,
-                          "&:hover": {
-                            bgcolor: getCategoryColor(benefit.category),
-                            filter: "brightness(0.9)",
-                          },
+                          px: 2,
+                        }}
+                      >
+                        Lookup Waitlist
+                      </Button>
+                    ) : benefit.application_status === "not_started" ? (
+                      <Button
+                        variant="contained"
+                        size="small"
+                        startIcon={<CheckCircleIcon />}
+                        sx={{
+                          textTransform: "none",
+                          fontWeight: 600,
+                          px: 2,
                         }}
                       >
                         Start Application
                       </Button>
-                    )}
-                    {benefit.application_status !== "not_started" && (
+                    ) : (
                       <Button
                         variant="outlined"
-                        fullWidth
+                        size="small"
                         sx={{
-                          borderColor: getCategoryColor(benefit.category),
-                          color: getCategoryColor(benefit.category),
                           textTransform: "none",
                           fontWeight: 600,
-                          py: 1,
-                          "&:hover": {
-                            borderColor: getCategoryColor(benefit.category),
-                            bgcolor: `${getCategoryColor(benefit.category)}10`,
-                          },
+                          px: 2,
                         }}
                       >
                         View Details

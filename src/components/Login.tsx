@@ -127,7 +127,7 @@ const Login: React.FC = () => {
                   helperText={errors.name}
                   margin="normal"
                   variant="outlined"
-                  placeholder="Jordan Smith"
+                  placeholder="Rishi Athreya"
                   sx={{ mb: 2 }}
                 />
 
@@ -139,10 +139,10 @@ const Login: React.FC = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   error={!!errors.phone}
-                  helperText={errors.phone || "Format: 408-555-0123"}
+                  helperText={errors.phone || "Format: +1-408-591-0644"}
                   margin="normal"
                   variant="outlined"
-                  placeholder="408-555-0123"
+                  placeholder="+1-408-591-0644"
                   sx={{ mb: 2 }}
                 />
 
