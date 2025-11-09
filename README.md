@@ -1,23 +1,23 @@
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
 # Pixie Helpline - Help Starts Here
 
 An AI-powered, trauma-informed call agent designed to assist homeless youth with empathy and efficiency.
+
+## 📸 Screenshots
+
+### Login Page
+
+![Pixie Helpline Login](./screenshots/image1.png)
+_Welcome screen with animated support agent icon and empathetic design_
+
+### Dashboard - Call Transcripts
+
+![Call Transcripts View](./screenshots/image2.png)
+_View complete conversation histories with AI voice assistant integration_
+
+### Dashboard - Benefits
+
+![Benefits You Qualify For](./screenshots/image3.png)
+_Track eligible programs including shelter waitlists, hospital appointments, and emergency housing_
 
 ## 🌟 Inspiration
 
